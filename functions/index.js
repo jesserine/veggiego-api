@@ -18,7 +18,7 @@ const db = admin.database()
 app.post('/api/createlist', async (req, res) => {
   const test = req.body
   await db.ref('test2').push(test)
-  res.status(201).send(JSON.stringify(test))
+  res.status(200).send(JSON.stringify(test))
 })
 
 app.get('/hello', async (req, res) => {
@@ -36,6 +36,21 @@ app.get('/api/testlist', async (req, res) => {
       testList.push(test[id])
     }
     res.status(200).send(JSON.stringify(testList))
+  })
+})
+
+app.get('/api/getRiderProfile/:number', async (req, res) => {
+  const riderNumber = req.params.number
+  const snapshot = await db.ref(`riders`)
+  snapshot.on('value', (snapshot) => {
+    const riderDetails = []
+    const riders = snapshot.val()
+    for(let id in riders){
+      if(riders[id].riderContactNum == riderNumber){
+        riderDetails.push(riders[id])
+      }
+    }
+    res.status(200).send(JSON.stringify(riderDetails))
   })
 })
 

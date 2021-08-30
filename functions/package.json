@@ -6,7 +6,8 @@
     "shell": "firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
+    "logs": "firebase functions:log",
+    "lint": "./node_modules/.bin/eslint ."
   },
   "engines": {
     "node": "14"
@@ -17,6 +18,9 @@
     "firebase-functions": "^3.14.1"
   },
   "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-react": "^7.25.1",
     "firebase-functions-test": "^0.2.0"
   },
   "private": true
