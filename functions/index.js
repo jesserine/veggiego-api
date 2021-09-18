@@ -81,6 +81,8 @@ app.put("/api/updatelist/:id", async (req, res) => {
   res.status(200).send(JSON.stringify(body));
 });
 
+//VEGGIE GO API
+
 // @desc    Delete a test
 // @route   DELETE /api/deletelist/:id
 app.delete("/api/deletelist/:id", async (req, res) => {
@@ -129,12 +131,37 @@ app.get("/api/getRiderOrders/:number/:status", async (req, res) => {
   });
 });
 
-// @desc    Update order statys
+// @desc    Update order status
 // @route   POST /api/updateOrder
-app.post("/api/updateOrder/:id", async (req, res) => {
-  const test = req.body;
-  await db.ref(`orders`).push(test);
-  res.status(200).send(JSON.stringify(test));
+app.get("/api/updateOrder/:id/:status", async (req, res) => {
+  const body = req.body;
+  body.status = req.params.status;
+  const paramId = req.params.id;
+  await db.ref(`orders/${paramId}`).update(body);
+  res.status(200).send(JSON.stringify(body));
 });
+
+// @desc    Update order status
+// @route   POST /api/editLandmark
+app.get("/api/editLandmark/:id/:addressId/:landmark", async (req, res) => {
+  const body = req.body;
+  body.landmark = req.params.landmark;
+  const paramId = req.params.id;
+  await db.ref(`customer/${paramId}`).update(body);
+  res.status(200).send(JSON.stringify(body));
+});
+
+// @desc    Update order status
+// @route   POST /api/editLandmark
+app.get(
+  "/api/editAddress/:id/:addressId/:region/:province/:city/:barangay/:street/:address",
+  async (req, res) => {
+    const body = req.body;
+    body.landmark = req.params.landmark;
+    const paramId = req.params.id;
+    await db.ref(`customer/${paramId}`).update(body);
+    res.status(200).send(JSON.stringify(body));
+  }
+);
 
 exports.app = functions.https.onRequest(app);
