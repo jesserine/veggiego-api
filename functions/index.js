@@ -94,7 +94,7 @@ app.delete("/api/deletelist/:id", async (req, res) => {
 
 // @desc    Get all rider orders
 // @route   DELETE /api/getRiderOrders/:number
-app.get("/api/getRiderOrders/:number", async (req, res) => {
+app.get("/api/getRiderOrdersByNumber/:number", async (req, res) => {
   const riderNumber = req.params.number;
   const snapshot = await db.ref(`orders`);
   snapshot.on("value", (snapshot) => {
@@ -102,6 +102,7 @@ app.get("/api/getRiderOrders/:number", async (req, res) => {
     const orders = snapshot.val();
     for (let id in orders) {
       if (orders[id].rider.riderContactNum == riderNumber) {
+        orders[id]["orderId"] = id;
         riderOrders.push(orders[id]);
       }
     }
@@ -124,6 +125,7 @@ app.get("/api/getRiderOrders/:number/:status", async (req, res) => {
         orders[id].rider.riderContactNum == riderNumber &&
         orders[id].status == orderStatus
       ) {
+        orders[id]["orderId"] = id;
         riderOrders.push(orders[id]);
       }
     }
